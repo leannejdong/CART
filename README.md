@@ -1,3 +1,3 @@
 # CART implementation
 
-Just started, buggy :)
+For self-learning purpose :)
