@@ -231,11 +231,11 @@ namespace ANN {
     }
 
     template<typename T>
-    int DecisionTree<T>::save_model(const char* name) const
+    int DecisionTree<T>::save_model(std::string_view name) const
     {
-        std::ofstream file(name, std::ios::out);
+        std::ofstream file(std::string(name), std::ios::out);
         if (!file.is_open()) {
-            fprintf(stderr, "open file fail: %s\n", name);
+            fprintf(stderr, "open file fail: %s\n", std::string(name).c_str());
             return -1;
         }
 
@@ -292,11 +292,11 @@ namespace ANN {
     }
 
     template<typename T>
-    int DecisionTree<T>::load_model(const char* name)
+    int DecisionTree<T>::load_model(std::string_view name)
     {
-        std::ifstream file(name, std::ios::in);
+        std::ifstream file(std::string(name), std::ios::in);
         if (!file.is_open()) {
-            fprintf(stderr, "open file fail: %s\n", name);
+            fprintf(stderr, "open file fail: %s\n", std::string(name).c_str());
             return -1;
         }
 

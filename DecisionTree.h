@@ -1,3 +1,6 @@
+#ifndef CART_DECISIONTREE_H
+#define CART_DECISIONTREE_H
+
 #include <vector>
 #include <tuple>
 #include <fstream>
@@ -6,9 +9,6 @@
 #include <algorithm>
 #include <typeinfo>
 #include <cassert>
-
-#ifndef CART_DECISIONTREE_H
-#define CART_DECISIONTREE_H
 
 namespace ANN {
     template<typename T>
@@ -22,29 +22,28 @@ namespace ANN {
         void set_min_size(int min_size) { this->min_size = min_size; }
         int get_min_size() const { return min_size; }
         void train();
-        int save_model(const char* name) const;
-        int load_model(const char* name);
+        int save_model(std::string_view name) const;
+        int load_model(std::string_view name);
         T predict(const std::vector<T>& data) const;
     protected:
         using dictionary = std::tuple<int, T, std::vector<std::vector<std::vector<T>>>>; // index of attribute, value of attribute, groups of data
         using row_element = std::tuple<int, int, T, T, T>; // flag, index, value, class_value_left, class_value_right
-        typedef struct binary_tree {
+        struct binary_tree {
             dictionary dict;
-            T class_value_left = (T)-1.f;
-            T class_value_right = (T)-1.f;
+            T class_value_left = T(-1.f);
+            T class_value_right = T(-1.f);
             binary_tree* left = nullptr;
             binary_tree* right = nullptr;
-        } binary_tree;
+        };
 
         // Calculate the Gini index for a split dataset
         T gini_index(const std::vector<std::vector<std::vector<T>>>& groups, const std::vector<T>& classes) const;
-        // Select the best split point for a dataset
-        dictionary get_split(const std::vector<std::vector<T>>& dataset) const;
         // Split a dataset based on an attribute and an attribute value
         std::vector<std::vector<std::vector<T>>> test_split(int index, T value, const std::vector<std::vector<T>>& dataset) const;
+        // Select the best split point for a dataset
+        dictionary get_split(const std::vector<std::vector<T>>& dataset) const;
         // Create a terminal node value
         T to_terminal(const std::vector<std::vector<T>>& group) const;
-        // Create child splits for a node or make terminal
         void split(binary_tree* node, int depth);
         // Build a decision tree
         void build_tree(const std::vector<std::vector<T>>& train);

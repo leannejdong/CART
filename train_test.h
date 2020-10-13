@@ -24,7 +24,7 @@ int test_decision_tree_train()
     dt.set_min_size(1);
     dt.train();
 
-    const char* model_name = "data/decision_tree.model";
+    std::string_view model_name = "/home/leanne/CLionProjects/CART/data/decision_tree.model";
     dt.save_model(model_name);
     ANN::DecisionTree<float> dt2;
     dt2.load_model(model_name);
@@ -35,7 +35,7 @@ int test_decision_tree_train()
     }
 
     // banknote authentication dataset
-//    const char* file_name = "banknote_authentication.txt";
+//    std::string_view file_name = "banknote_authentication.txt";
 //
 //    std::vector<std::vector<float>> data;
 //    int ret = read_txt_file<float>(file_name, data, ',', 1372, 5);
@@ -53,7 +53,7 @@ int test_decision_tree_train()
 //    dt.set_min_size(10);
 //    dt.train();
 //
-//    const char* model_name = "decision_tree.model";
+//    std::string_view model_name = "decision_tree.model";
 //    dt.save_model(model_name);
 
     return 0;
@@ -61,7 +61,7 @@ int test_decision_tree_train()
 
 int test_decision_tree_predict()
 {
-    const char* model_name = "decision_tree.model";
+    std::string_view model_name = "decision_tree.model";
     ANN::DecisionTree<float> dt;
     dt.load_model(model_name);
     int max_depth = dt.get_max_depth();
