@@ -1,3 +1,3 @@
 # CART implementation
 
-For self-learning purpose :)
+Simple Decision Tree Algorithm From Scratch in C++. (Base on Jason Brownlee's Python codes)
