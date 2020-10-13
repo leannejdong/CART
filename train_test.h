@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include "DecisionTree.h"
+#include "utility.h"
+
+template int read_txt_file<float>(std::string_view, std::vector<std::vector<float>>&, const char, const int, const int);
 
 int test_decision_tree_train()
 {
@@ -35,33 +38,33 @@ int test_decision_tree_train()
     }
 
     // banknote authentication dataset
-//    std::string_view file_name = "banknote_authentication.txt";
-//
-//    std::vector<std::vector<float>> data;
-//    int ret = read_txt_file<float>(file_name, data, ',', 1372, 5);
-//    if (ret != 0) {
-//        fprintf(stderr, "parse txt file fail: %s\n", file_name);
-//        return -1;
-//    }
-//
-//    //fprintf(stdout, "data size: rows: %d\n", data.size());
-//
-//    const std::vector<float> classes{ 0.f, 1.f };
-//    ANN::DecisionTree<float> dt;
-//    dt.init(data, classes);
-//    dt.set_max_depth(6);
-//    dt.set_min_size(10);
-//    dt.train();
-//
-//    std::string_view model_name = "decision_tree.model";
-//    dt.save_model(model_name);
+    std::string_view file_name = "/home/leanne/CLionProjects/CART/banknote_authentication.txt";
+
+    std::vector<std::vector<float>> data1;
+    int ret = read_txt_file<float>(file_name, data1, ',', 1372, 5);
+    if (ret != 0) {
+        fprintf(stderr, "parse txt file fail: %s\n", std::string(file_name).c_str());
+        return -1;
+    }
+
+    //fprintf(stdout, "data size: rows: %d\n", data.size());
+
+    const std::vector<float> classes1{ 0.f, 1.f };
+    ANN::DecisionTree<float> dt1;
+    dt1.init(data, classes);
+    dt1.set_max_depth(6);
+    dt1.set_min_size(10);
+    dt1.train();
+
+    std::string_view model_name1 = "/home/leanne/CLionProjects/CART/data/decision_tree1.model";
+    dt.save_model(model_name1);
 
     return 0;
 }
 
 int test_decision_tree_predict()
 {
-    std::string_view model_name = "decision_tree.model";
+    std::string_view model_name = "/home/leanne/CLionProjects/CART/data/decision_tree_test.model";
     ANN::DecisionTree<float> dt;
     dt.load_model(model_name);
     int max_depth = dt.get_max_depth();
