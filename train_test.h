@@ -27,7 +27,7 @@ int test_decision_tree_train()
     dt.set_min_size(1);
     dt.train();
 
-    std::string_view model_name = "/home/leanne/CLionProjects/CART/data/decision_tree.model";
+    std::string_view model_name = "/home/leanne/CLionProjects/CART/saved_model/decision_tree.model";
     dt.save_model(model_name);
     ANN::DecisionTree<float> dt2;
     dt2.load_model(model_name);
@@ -56,7 +56,7 @@ int test_decision_tree_train()
     dt1.set_min_size(10);
     dt1.train();
 
-    std::string_view model_name1 = "/home/leanne/CLionProjects/CART/data/decision_tree1.model";
+    std::string_view model_name1 = "/home/leanne/CLionProjects/CART/saved_model/decision_tree1.model";
     dt.save_model(model_name1);
 
     return 0;
@@ -64,7 +64,7 @@ int test_decision_tree_train()
 
 int test_decision_tree_predict()
 {
-    std::string_view model_name = "/home/leanne/CLionProjects/CART/data/decision_tree_test.model";
+    std::string_view model_name = "/home/leanne/CLionProjects/CART/saved_model/decision_tree_test.model";
     ANN::DecisionTree<float> dt;
     dt.load_model(model_name);
     int max_depth = dt.get_max_depth();
