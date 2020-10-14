@@ -19,8 +19,8 @@ int test_decision_tree_train()
                                                 { 9.00220326f, 3.339047188f, 1.f },
                                                 { 7.444542326f, 0.476683375f, 1.f },
                                                 { 10.12493903f, 3.234550982f, 1.f },
-                                                { 6.642287351f, 3.319983761f, 1.f } };
-    const std::vector<float> classes{ 0.f, 1.f };
+                                               {6.642287351f, 3.319983761f, 1.f}};
+    const std::vector<float> classes{0.f, 1.f};
     ANN::DecisionTree<float> dt;
     dt.init(data, classes);
     dt.set_max_depth(3);
@@ -29,13 +29,14 @@ int test_decision_tree_train()
 
     std::string_view model_name = "/home/leanne/CLionProjects/CART/saved_model/decision_tree.model";
     dt.save_model(model_name);
-    ANN::DecisionTree<float> dt2;
-    dt2.load_model(model_name);
-    const std::vector<std::vector<float>> test{{0.6f, 1.9f, 0.f}, {9.7f, 4.3f, 1.f}};
-    for (const auto& row : test) {
-        float ret = dt2.predict(row);
-        fprintf(stdout, "predict result: %.1f, actural value: %.1f\n", ret, row[2]);
-    }
+    //    ANN::DecisionTree<float> dt2;
+    dt.load_model(model_name);
+    // fix it!
+    //    const std::vector<std::vector<float>> test{{0.6f, 1.9f, 0.f}, {9.7f, 4.3f, 1.f}};
+    //    for (const auto& row : test) {
+    //        float ret = dt.predict(row);
+    //        fprintf(stdout, "predict result: %.1f, actural value: %.1f\n", ret, row[2]);
+    //    }
 
     //    // banknote authentication dataset
     std::string_view file_name = "/home/leanne/CLionProjects/CART/banknote_authentication.txt";
@@ -51,13 +52,13 @@ int test_decision_tree_train()
 
     const std::vector<float> classes1{ 0.f, 1.f };
     ANN::DecisionTree<float> dt1;
-    dt1.init(data, classes);
+    dt1.init(data1, classes1);
     dt1.set_max_depth(6);
     dt1.set_min_size(10);
     dt1.train();
 
     std::string_view model_name1 = "/home/leanne/CLionProjects/CART/saved_model/decision_tree1.model";
-    dt.save_model(model_name1);
+    dt1.save_model(model_name1);
 
     return 0;
 }
