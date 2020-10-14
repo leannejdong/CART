@@ -387,11 +387,11 @@ namespace ANN {
         }
     }
 
-    template<typename T>
-    void DecisionTree<T>::delete_tree()
-    {
-        delete_node(std::move(tree));
-    }
+    //    template<typename T>
+    //    void DecisionTree<T>::delete_tree()
+    //    {
+    //        delete_node(std::move(tree));
+    //    }
 
     template<typename T>
     void DecisionTree<T>::delete_node(std::unique_ptr<binary_tree> node) {
@@ -401,8 +401,7 @@ namespace ANN {
     }
 
     template<typename T>
-    double DecisionTree<T>::accuracy_metric() const
-    {
+    double DecisionTree<T>::accuracy_metric() const {
         int correct = 0;
         for (int i = 0; i < this->samples_num; ++i) {
             T predicted = predict(tree.get(), src_data[i]);

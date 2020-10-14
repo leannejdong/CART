@@ -8,11 +8,11 @@ int main() {
     else
         fprintf(stderr, "########## test fail ##########\n");
 
-    int ret1 = test_decision_tree_predict();
-
-    if (ret1 == 0) fprintf(stdout, "========== test success ==========\n");
-    else
-        fprintf(stderr, "########## test fail ##########\n");
+    //    int ret1 = test_decision_tree_predict();
+    //
+    //    if (ret1 == 0) fprintf(stdout, "========== test success ==========\n");
+    //    else
+    //        fprintf(stderr, "########## test fail ##########\n");
 
     return 0;
 }

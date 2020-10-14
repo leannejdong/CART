@@ -16,7 +16,7 @@ namespace ANN {
     class DecisionTree { // CART (Classfification and Regression Trees
     public:
         DecisionTree() = default;
-        ~DecisionTree() { delete_tree(); }
+        //  ~DecisionTree() { delete_tree(); }
         int init(const std::vector<std::vector<T>>& data, const std::vector<T>& classes);
         void set_max_depth(int max_depth) { this->max_depth = max_depth; }
         int get_max_depth() const { return max_depth; }
@@ -31,8 +31,8 @@ namespace ANN {
         using row_element = std::tuple<int, int, T, T, T>; // flag, index, value, class_value_left, class_value_right
         struct binary_tree {
             dictionary dict;
-            T class_value_left = T(-1.f);
-            T class_value_right = T(-1.f);
+            T class_value_left = (T) -1.f;
+            T class_value_right = (T) -1.f;
             //            binary_tree* left = nullptr;
             //            binary_tree* right = nullptr;
             std::unique_ptr<binary_tree> left;
