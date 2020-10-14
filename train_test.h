@@ -37,7 +37,7 @@ int test_decision_tree_train()
         fprintf(stdout, "predict result: %.1f, actural value: %.1f\n", ret, row[2]);
     }
 
-    // banknote authentication dataset
+    //    // banknote authentication dataset
     std::string_view file_name = "/home/leanne/CLionProjects/CART/banknote_authentication.txt";
 
     std::vector<std::vector<float>> data1;
