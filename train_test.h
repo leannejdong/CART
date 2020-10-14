@@ -9,55 +9,55 @@ template int read_txt_file<float>(std::string_view, std::vector<std::vector<floa
 
 int test_decision_tree_train() {
     // small dataset test
-    const std::vector<std::vector<float>> data{{2.771244718f, 1.784783929f, 0.f},
-                                               {1.728571309f, 1.169761413f, 0.f},
-                                               {3.678319846f, 2.81281357f, 0.f},
-                                               {3.961043357f, 2.61995032f, 0.f},
-                                               {2.999208922f, 2.209014212f, 0.f},
-                                               {7.497545867f, 3.162953546f, 1.f},
-                                               {9.00220326f, 3.339047188f, 1.f},
-                                               {7.444542326f, 0.476683375f, 1.f},
-                                               {10.12493903f, 3.234550982f, 1.f},
-                                               {6.642287351f, 3.319983761f, 1.f}};
-    const std::vector<float> classes{0.f, 1.f};
-    ANN::DecisionTree<float> dt;
-    dt.init(data, classes);
-    dt.set_max_depth(3);
-    dt.set_min_size(1);
-    dt.train();
-
-    std::string_view model_name = "/home/leanne/CLionProjects/CART/saved_model/decision_tree0.model";
-    dt.save_model(model_name);
-    ANN::DecisionTree<float> dt2;
-    dt2.load_model(model_name);
-    // fix it!
-    const std::vector<std::vector<float>> test{{0.6f, 1.9f, 0.f}, {9.7f, 4.3f, 1.f}};
-    for (const auto &row : test) {
-        float ret = dt2.predict(row);
-        fprintf(stdout, "predict result: %.1f, actural value: %.1f\n", ret, row[2]);
-    }
-
-    //    // banknote authentication dataset
-    //    std::string_view file_name = "/home/leanne/CLionProjects/CART/banknote_authentication.txt";
-    //
-    //    std::vector<std::vector<float>> data1;
-    //    int ret = read_txt_file<float>(file_name, data1, ',', 1372, 5);
-    //    if (ret != 0) {
-    //        fprintf(stderr, "parse txt file fail: %s\n", std::string(file_name).c_str());
-    //        return -1;
-    //    }
-    //
-    //    //fprintf(stdout, "data size: rows: %d\n", data.size());
-    //
-    //    const std::vector<float> classes1{ 0.f, 1.f };
+    //    const std::vector<std::vector<float>> data{{2.771244718f, 1.784783929f, 0.f},
+    //                                               {1.728571309f, 1.169761413f, 0.f},
+    //                                               {3.678319846f, 2.81281357f, 0.f},
+    //                                               {3.961043357f, 2.61995032f, 0.f},
+    //                                               {2.999208922f, 2.209014212f, 0.f},
+    //                                               {7.497545867f, 3.162953546f, 1.f},
+    //                                               {9.00220326f, 3.339047188f, 1.f},
+    //                                               {7.444542326f, 0.476683375f, 1.f},
+    //                                               {10.12493903f, 3.234550982f, 1.f},
+    //                                               {6.642287351f, 3.319983761f, 1.f}};
+    //    const std::vector<float> classes{0.f, 1.f};
     //    ANN::DecisionTree<float> dt;
-    //    dt.init(data1, classes1);
-    //    dt.set_max_depth(6);
-    //    dt.set_min_size(10);
+    //    dt.init(data, classes);
+    //    dt.set_max_depth(3);
+    //    dt.set_min_size(1);
     //    dt.train();
     //
-    //    std::string_view model_name1 = "/home/leanne/CLionProjects/CART/saved_model/decision_tree.model";
-    //    dt.save_model(model_name1);
+    //    std::string_view model_name = "/home/leanne/CLionProjects/CART/saved_model/decision_tree0.model";
+    //    dt.save_model(model_name);
+    //    ANN::DecisionTree<float> dt2;
+    //    dt2.load_model(model_name);
+    //    // fix it!
+    //    const std::vector<std::vector<float>> test{{0.6f, 1.9f, 0.f}, {9.7f, 4.3f, 1.f}};
+    //    for (const auto &row : test) {
+    //        float ret = dt2.predict(row);
+    //        fprintf(stdout, "predict result: %.1f, actural value: %.1f\n", ret, row[2]);
+    //    }
+
+    // banknote authentication dataset
+    std::string_view file_name = "/home/leanne/CLionProjects/CART/banknote_authentication.txt";
+
+    std::vector<std::vector<float>> data1;
+    int ret = read_txt_file<float>(file_name, data1, ',', 1372, 5);
+    if (ret != 0) {
+        fprintf(stderr, "parse txt file fail: %s\n", std::string(file_name).c_str());
+        return -1;
+    }
+
+    //fprintf(stdout, "data size: rows: %d\n", data.size());
+
+    const std::vector<float> classes1{0.f, 1.f};
+    ANN::DecisionTree<float> dt;
+    dt.init(data1, classes1);
+    dt.set_max_depth(6);
+    dt.set_min_size(10);
+    dt.train();
+
+    std::string_view model_name1 = "/home/leanne/CLionProjects/CART/saved_model/decision_tree.model";
+    dt.save_model(model_name1);
 
     return 0;
 }
