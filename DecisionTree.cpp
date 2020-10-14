@@ -1,5 +1,6 @@
 #include "DecisionTree.h"
 #include <algorithm>
+#include <iostream>
 #include <iterator>
 #include <memory>
 #include <set>
@@ -64,9 +65,8 @@ namespace ANN {
     }
 
     template<typename T>
-    std::vector<std::vector<std::vector<T>>> DecisionTree<T>::test_split(int index, T value, const std::vector<std::vector<T>>& dataset) const
-    {
-        std::vector<std::vector<std::vector<T>>> groups(2); // 0: left, 1: reight
+    std::vector<std::vector<std::vector<T>>> DecisionTree<T>::test_split(int index, T value, const std::vector<std::vector<T>>& dataset) const {
+        std::vector<std::vector<std::vector<T>>> groups(2);// 0: left, 1: right
 
         for (size_t row = 0; row < dataset.size(); ++row) {
             if (dataset[row][index] < value) {
@@ -206,7 +206,9 @@ namespace ANN {
     T DecisionTree<T>::predict(const std::vector<T>& data) const
     {
         if (!tree) {
-            fprintf(stderr, "Error, tree is null\n");
+            //    fprintf(stderr, "Error, tree is null\n");
+            std::cout << " Error, tree is null "
+                      << " \n";
             return -1111.f;
         }
 
@@ -236,7 +238,8 @@ namespace ANN {
     {
         std::ofstream file(std::string(name), std::ios::out);
         if (!file.is_open()) {
-            fprintf(stderr, "open file fail: %s\n", std::string(name).c_str());
+            //  fprintf(stderr, "open file fail: %s\n", std::string(name).c_str());
+            std::cout << " open file fail: " << std::string(name).c_str() << " \n";
             return -1;
         }
 
@@ -296,7 +299,8 @@ namespace ANN {
     {
         std::ifstream file(std::string(name), std::ios::in);
         if (!file.is_open()) {
-            fprintf(stderr, "open file fail: %s\n", std::string(name).c_str());
+            //fprintf(stderr, "open file fail: %s\n", std::string(name).c_str());
+            std::cout << " open file fail: " << std::string(name).c_str() << " \n";
             return -1;
         }
 

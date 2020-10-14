@@ -43,7 +43,8 @@ int test_decision_tree_train() {
     std::vector<std::vector<float>> data1;
     int ret = read_txt_file<float>(file_name, data1, ',', 1372, 5);
     if (ret != 0) {
-        fprintf(stderr, "parse txt file fail: %s\n", std::string(file_name).c_str());
+        // fprintf(stderr, "parse txt file fail: %s\n", std::string(file_name).c_str());
+        std::cout << " parse txt file fail: " << std::string(file_name).c_str() << " \n";
         return -1;
     }
 
@@ -62,22 +63,22 @@ int test_decision_tree_train() {
     return 0;
 }
 
-int test_decision_tree_predict()
-{
+int test_decision_tree_predict() {
     std::string_view model_name = "/home/leanne/CLionProjects/CART/saved_model/decision_tree.model";
     ANN::DecisionTree<float> dt;
     dt.load_model(model_name);
     int max_depth = dt.get_max_depth();
     int min_size = dt.get_min_size();
 
-    fprintf(stdout, "max_depth: %d, min_size: %d\n", max_depth, min_size);
+    //fprintf(stdout, "max_depth: %d, min_size: %d\n", max_depth, min_size);
+    std::cout << " max_depth: " << max_depth << " min_size " << min_size << " \n";
 
-    std::vector<std::vector<float>> test {{-2.5526,-7.3625,6.9255,-0.66811,1},
-                                          {-4.5531,-12.5854,15.4417,-1.4983,1},
-                                          {4.0948,-2.9674,2.3689,0.75429,0},
-                                          {-1.0401,9.3987,0.85998,-5.3336,0},
-                                          {1.0637,3.6957,-4.1594,-1.9379,1}};
-    for (const auto& row : test) {
+    std::vector<std::vector<float>> test{{-2.5526, -7.3625, 6.9255, -0.66811, 1},
+                                         {-4.5531, -12.5854, 15.4417, -1.4983, 1},
+                                         {4.0948, -2.9674, 2.3689, 0.75429, 0},
+                                         {-1.0401, 9.3987, 0.85998, -5.3336, 0},
+                                         {1.0637, 3.6957, -4.1594, -1.9379, 1}};
+    for (const auto &row : test) {
         float ret_predict = dt.predict(row);
         std::cout << "predicted result: " << ret_predict << ", actual value " << row[4] << "\n";
     }

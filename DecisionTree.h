@@ -55,7 +55,7 @@ namespace ANN {
         T predict(binary_tree *node, const std::vector<T> &data) const;
         // calculate accuracy percentage
         double accuracy_metric() const;
-        void delete_tree();
+        // void delete_tree();
         void delete_node(std::unique_ptr<binary_tree> node);
         void write_node(const binary_tree *node, std::ofstream &file) const;
         void node_to_row_element(binary_tree* node, std::vector<row_element>& rows, int pos) const;
