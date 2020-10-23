@@ -9,7 +9,7 @@
 namespace ANN {
 
     template<typename T>
-    int DecisionTree<T>::init(const std::vector<std::vector<T>>& data, const std::vector<T>& classes)
+    requires std::copy_constructible<T> int DecisionTree<T>::init(const std::vector<std::vector<T>>& data, const std::vector<T>& classes)
     {
         assert(data.size() != 0 && classes.size() != 0 && data[0].size() != 0);
 
@@ -25,12 +25,9 @@ namespace ANN {
     }
 
     template<typename T>
-    T DecisionTree<T>::gini_index(const std::vector<std::vector<std::vector<T>>>& groups, const std::vector<T>& classes) const
+    requires std::copy_constructible<T>
+            T DecisionTree<T>::gini_index(const std::vector<std::vector<std::vector<T>>>& groups, const std::vector<T>& classes) const
     {
-        // Gini calculation for a group
-        // proportion = count(class_value) / count(rows)
-        // gini_index = (1.0 - sum(proportion * proportion)) * (group_size/total_samples)
-
         // count all samples at split point
         int instances = 0;
         int group_num = groups.size();
@@ -65,7 +62,8 @@ namespace ANN {
     }
 
     template<typename T>
-    std::vector<std::vector<std::vector<T>>> DecisionTree<T>::test_split(int index, T value, const std::vector<std::vector<T>>& dataset) const {
+    requires std::copy_constructible<T>
+            std::vector<std::vector<std::vector<T>>> DecisionTree<T>::test_split(int index, T value, const std::vector<std::vector<T>>& dataset) const {
         std::vector<std::vector<std::vector<T>>> groups(2);// 0: left, 1: right
 
         for (size_t row = 0; row < dataset.size(); ++row) {
@@ -80,7 +78,8 @@ namespace ANN {
     }
 
     template<typename T>
-    std::tuple<int, T, std::vector<std::vector<std::vector<T>>>> DecisionTree<T>::get_split(const std::vector<std::vector<T>>& dataset) const
+    requires std::copy_constructible<T>
+            std::tuple<int, T, std::vector<std::vector<std::vector<T>>>> DecisionTree<T>::get_split(const std::vector<std::vector<T>>& dataset) const
     {
         std::vector<T> values;
         for (size_t i = 0; i < dataset.size(); ++i) {
@@ -114,7 +113,8 @@ namespace ANN {
     }
 
     template<typename T>
-    T DecisionTree<T>::to_terminal(const std::vector<std::vector<T>>& group) const
+    requires std::copy_constructible<T>
+            T DecisionTree<T>::to_terminal(const std::vector<std::vector<T>>& group) const
     {
         std::vector<T> values;
         for (size_t i = 0; i < group.size(); ++i) {
@@ -133,9 +133,10 @@ namespace ANN {
 
         return *std::next(vals.cbegin(), index);
     }
-
     template<typename T>
-    void DecisionTree<T>::split(binary_tree* node, int depth) {
+    requires std::copy_constructible<T>
+
+            void DecisionTree<T>::split(binary_tree *node, int depth) {
         //assert(node != nullptr && depth != 0);
         assert(node);
         std::vector<std::vector<T>> left = std::get<2>(node->dict)[0];
@@ -181,7 +182,7 @@ namespace ANN {
     }
 
     template<typename T>
-    void DecisionTree<T>::build_tree(const std::vector<std::vector<T>>& train) {
+    requires std::copy_constructible<T> void DecisionTree<T>::build_tree(const std::vector<std::vector<T>>& train) {
         // create root node
         dictionary root = get_split(train);
         std::unique_ptr<binary_tree> node = std::make_unique<binary_tree>();
@@ -191,7 +192,7 @@ namespace ANN {
     }
 
     template<typename T>
-    void DecisionTree<T>::train()
+    requires std::copy_constructible<T> void DecisionTree<T>::train()
     {
         this->max_nodes = (1 << max_depth) - 1;
         build_tree(src_data);
@@ -203,7 +204,8 @@ namespace ANN {
     }
 
     template<typename T>
-    T DecisionTree<T>::predict(const std::vector<T>& data) const
+    requires std::copy_constructible<T>
+            T DecisionTree<T>::predict(const std::vector<T>& data) const
     {
         if (!tree) {
             //    fprintf(stderr, "Error, tree is null\n");
@@ -216,7 +218,8 @@ namespace ANN {
     }
 
     template<typename T>
-    T DecisionTree<T>::predict(binary_tree* node, const std::vector<T>& data) const
+    requires std::copy_constructible<T>
+            T DecisionTree<T>::predict(binary_tree* node, const std::vector<T>& data) const
     {
         if (data[std::get<0>(node->dict)] < std::get<1>(node->dict)) {
             if (node->left) {
@@ -234,7 +237,7 @@ namespace ANN {
     }
 
     template<typename T>
-    int DecisionTree<T>::save_model(std::string_view name) const
+    requires std::copy_constructible<T> int DecisionTree<T>::save_model(std::string_view name) const
     {
         std::ofstream file(std::string(name), std::ios::out);
         if (!file.is_open()) {
@@ -257,14 +260,8 @@ namespace ANN {
     }
 
     template<typename T>
-    void DecisionTree<T>::write_node(const binary_tree* node, std::ofstream& file) const
+    requires std::copy_constructible<T> void DecisionTree<T>::write_node(const binary_tree* node, std::ofstream& file) const
     {
-        /*if (!node) return;
-        write_node(node->left, file);
-        file<<std::get<0>(node->dict)<<","<<std::get<1>(node->dict)<<","<<node->class_value_left<<","<<node->class_value_right<<std::endl;
-        write_node(node->right, file);*/
-
-        //typedef std::tuple<int, int, T, T, T> row; // flag, index, value, class_value_left, class_value_right
         std::vector<row_element> vec(this->max_nodes, std::make_tuple(-1, -1, (T)-1.f, (T)-1.f, (T)-1.f));
 
         binary_tree* tmp = const_cast<binary_tree*>(node);
@@ -276,7 +273,7 @@ namespace ANN {
     }
 
     template<typename T>
-    void DecisionTree<T>::node_to_row_element(binary_tree* node, std::vector<row_element>& rows, int pos) const {
+    requires std::copy_constructible<T> void DecisionTree<T>::node_to_row_element(binary_tree* node, std::vector<row_element>& rows, int pos) const {
         if (!node) return;
 
         rows[pos] = std::make_tuple(0, std::get<0>(node->dict), std::get<1>(node->dict), node->class_value_left, node->class_value_right);// 0: have node, -1: no node
@@ -286,7 +283,7 @@ namespace ANN {
     }
 
     template<typename T>
-    int DecisionTree<T>::height_of_tree(const binary_tree* node) const
+    requires std::copy_constructible<T> int DecisionTree<T>::height_of_tree(const binary_tree* node) const
     {
         if (!node)
             return 0;
@@ -295,11 +292,10 @@ namespace ANN {
     }
 
     template<typename T>
-    int DecisionTree<T>::load_model(std::string_view name)
+    requires std::copy_constructible<T> int DecisionTree<T>::load_model(std::string_view name)
     {
         std::ifstream file(std::string(name), std::ios::in);
         if (!file.is_open()) {
-            //fprintf(stderr, "open file fail: %s\n", std::string(name).c_str());
             std::cout << " open file fail: " << std::string(name).c_str() << " \n";
             return -1;
         }
@@ -329,7 +325,6 @@ namespace ANN {
 
                 assert(vec2.size() == 5);
                 rows[count] = std::make_tuple((int)vec2[0], (int)vec2[1], vec2[2], vec2[3], vec2[4]);
-                //fprintf(stderr, "%d, %d, %f, %f, %f\n", std::get<0>(rows[count]), std::get<1>(rows[count]), std::get<2>(rows[count]), std::get<3>(rows[count]), std::get<4>(rows[count]));
                 ++count;
             }
         } else { // double
@@ -364,7 +359,7 @@ namespace ANN {
     }
 
     template<typename T>
-    void DecisionTree<T>::row_element_to_node(binary_tree* node, const std::vector<row_element>& rows, int n, int pos)
+    requires std::copy_constructible<T> void DecisionTree<T>::row_element_to_node(binary_tree* node, const std::vector<row_element>& rows, int n, int pos)
     {
         if (!node || n == 0) return;
 
@@ -391,21 +386,15 @@ namespace ANN {
         }
     }
 
-    //    template<typename T>
-    //    void DecisionTree<T>::delete_tree()
-    //    {
-    //        delete_node(std::move(tree));
-    //    }
-
     template<typename T>
-    void DecisionTree<T>::delete_node(std::unique_ptr<binary_tree> node) {
+    requires std::copy_constructible<T> void DecisionTree<T>::delete_node(std::unique_ptr<binary_tree> node) {
         if (node->left) delete_node(std::move(node->left));
         if (node->right) delete_node(std::move(node->right));
         node.reset();
     }
 
     template<typename T>
-    double DecisionTree<T>::accuracy_metric() const {
+    requires std::copy_constructible<T> double DecisionTree<T>::accuracy_metric() const {
         int correct = 0;
         for (int i = 0; i < this->samples_num; ++i) {
             T predicted = predict(tree.get(), src_data[i]);
@@ -420,7 +409,7 @@ namespace ANN {
     }
 
     template<typename T>
-    void DecisionTree<T>::print_tree(const binary_tree* node, int depth) const
+    requires std::copy_constructible<T> void DecisionTree<T>::print_tree(const binary_tree* node, int depth) const
     {
         if (node) {
             std::string blank = " ";

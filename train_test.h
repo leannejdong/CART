@@ -43,12 +43,9 @@ int test_decision_tree_train() {
     std::vector<std::vector<float>> data1;
     int ret = read_txt_file<float>(file_name, data1, ',', 1372, 5);
     if (ret != 0) {
-        // fprintf(stderr, "parse txt file fail: %s\n", std::string(file_name).c_str());
         std::cout << " parse txt file fail: " << std::string(file_name).c_str() << " \n";
         return -1;
     }
-
-    //fprintf(stdout, "data size: rows: %d\n", data.size());
 
     const std::vector<float> classes1{0.f, 1.f};
     ANN::DecisionTree<float> dt;
@@ -70,7 +67,6 @@ int test_decision_tree_predict() {
     int max_depth = dt.get_max_depth();
     int min_size = dt.get_min_size();
 
-    //fprintf(stdout, "max_depth: %d, min_size: %d\n", max_depth, min_size);
     std::cout << " max_depth: " << max_depth << " min_size " << min_size << " \n";
 
     std::vector<std::vector<float>> test{{-2.5526, -7.3625, 6.9255, -0.66811, 1},

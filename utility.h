@@ -16,7 +16,6 @@ template<typename T>
 int read_txt_file(std::string_view name, std::vector<std::vector<T>> &data, const char separator, const int rows, const int cols)
 {
     if (typeid(float).name() != typeid(T).name()) {
-        //  fprintf(stderr, "string convert to number only support float type\n");
         std::cout << " string convert to number only support float type "
                   << " \n";
         return -1;
@@ -24,7 +23,6 @@ int read_txt_file(std::string_view name, std::vector<std::vector<T>> &data, cons
 
     std::ifstream fin(std::string(name), std::ios::in);
     if (!fin.is_open()) {
-        // fprintf(stderr, "open file fail: %s\n", std::string(name).c_str());
         std::cout << " open file fail: " << std::string(name).c_str() << " \n";
         return -1;
     }

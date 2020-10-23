@@ -13,11 +13,11 @@
 
 namespace ANN {
     template<typename T>
-    class DecisionTree { // CART (Classfification and Regression Trees
+    requires std::copy_constructible<T>//use a require cause
+            class DecisionTree {       // CART (Classfification and Regression Trees
     public:
         DecisionTree() = default;
-        //  ~DecisionTree() { delete_tree(); }
-        int init(const std::vector<std::vector<T>>& data, const std::vector<T>& classes);
+        int init(const std::vector<std::vector<T>> &data, const std::vector<T> &classes);
         void set_max_depth(int max_depth) { this->max_depth = max_depth; }
         int get_max_depth() const { return max_depth; }
         void set_min_size(int min_size) { this->min_size = min_size; }
