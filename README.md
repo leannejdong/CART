@@ -9,9 +9,9 @@ CART is the most classical decision tree algorithm. It starts with a top-down gr
 
 * Compiler requirement
 
- * gcc10 (preferred)
+ ** gcc10 (preferred)
 
- * clang10 (concepts library and constraint auto unavailable)
+ ** clang10 (concepts library and constraint auto unavailable)
 
- * MSVC19.23
+ ** MSVC19.23
 
